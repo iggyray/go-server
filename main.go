@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	controller "github.com/iggyray/go-server/internal/http/controller"
 	handler "github.com/iggyray/go-server/internal/http/handler"
+	"github.com/iggyray/go-server/internal/service"
 )
 
 const (
@@ -19,7 +20,8 @@ func main() {
 		w.Write([]byte("Hello!"))
 	})
 
-	postController := controller.New()
+	postService := service.New()
+	postController := controller.New(postService)
 	postHandler := handler.New(postController)
 	r.Get("/posts", postHandler.GetPosts)
 	r.Get("posts/{id}", postHandler.GetPost)

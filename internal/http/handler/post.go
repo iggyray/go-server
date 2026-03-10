@@ -7,7 +7,23 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/iggyray/go-server/internal/domain"
 )
+
+type (
+	PostHandler struct {
+		controller PostController
+	}
+
+	PostController interface {
+		GetPosts() []domain.Post
+		GetPost(string) domain.Post
+	}
+)
+
+func New(controller PostController) *PostHandler {
+	return &PostHandler{controller: controller}
+}
 
 func (h *PostHandler) GetPosts(w http.ResponseWriter, r *http.Request) {
 	posts := h.controller.GetPosts()
