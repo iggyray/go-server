@@ -5,7 +5,12 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	router "github.com/iggyray/go-server/internal/http"
+	controller "github.com/iggyray/go-server/internal/http/controller"
+	handler "github.com/iggyray/go-server/internal/http/handler"
+)
+
+const (
+	PORT = ":8000"
 )
 
 func main() {
@@ -13,8 +18,12 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello!"))
 	})
-	r.Mount("/posts", router.PostRouter())
 
-	log.Printf("Listening on http://localhost:%d\n", 8000)
-	log.Fatal(http.ListenAndServe(":8000", r))
+	postController := controller.New()
+	postHandler := handler.New(postController)
+	r.Get("/posts", postHandler.GetPosts)
+	r.Get("posts/{id}", postHandler.GetPost)
+
+	log.Printf("Listening on http://localhost%s\n", PORT)
+	log.Fatal(http.ListenAndServe(PORT, r))
 }

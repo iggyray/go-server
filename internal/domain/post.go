@@ -1,10 +1,11 @@
 package domain
 
-type Post struct {
-	Author  string
-	Content string
-}
+type (
+	PostID string
 
-func GenPost() Post {
-	return Post{Author: "Bob", Content: "Hello world"}
-}
+	Post struct {
+		ID      PostID
+		Author  string
+		Content string
+	}
+)
