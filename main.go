@@ -5,9 +5,10 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	controller "github.com/iggyray/go-server/internal/http/controller"
-	handler "github.com/iggyray/go-server/internal/http/handler"
+	"github.com/iggyray/go-server/internal/http/controller"
+	"github.com/iggyray/go-server/internal/http/handler"
 	"github.com/iggyray/go-server/internal/service"
+	"github.com/lpernett/godotenv"
 )
 
 const (
@@ -15,6 +16,11 @@ const (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is online!! 🚀🚀🚀"))
